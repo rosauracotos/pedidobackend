@@ -29,6 +29,10 @@ public class RespuestaControladorServicio {
         return RespuestaControlador.obtenerRespuestaDeExito(MessageFormat.format(Constantes.RESPUESTA_CONTROLADOR.MENSAJE_ELIMINAR_EXITO, nombreEntidad));
     }
 
+    public RespuestaControlador obtenerRespuestaDeExitoAnular(String nombreEntidad) {
+        return RespuestaControlador.obtenerRespuestaDeExito(MessageFormat.format(Constantes.RESPUESTA_CONTROLADOR.MENSAJE_ANULAR_EXITO, nombreEntidad));
+    }
+
     public RespuestaControlador obtenerRespuestaDeErrorEliminar(String nombreEntidad) {
         return RespuestaControlador.obtenerRespuestaDeError(MessageFormat.format(Constantes.RESPUESTA_CONTROLADOR.MENSAJE_ELIMINAR_ERROR, nombreEntidad));
     }

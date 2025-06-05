@@ -58,5 +58,7 @@ public interface OperarioRepository extends JpaRepository<Operario, Long> {
             @Param("maximo") Integer maximo,
             @Param("limite") Integer limite);
 
+    List<Operario> findByEstadoTrue();
+
 
 }

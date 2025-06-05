@@ -1,6 +1,6 @@
 package com.example.pedidobackend.controller;
 
-import com.example.pedidobackend.service.VehiculoService;
+import com.example.pedidobackend.service.EstadoPedidoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/vehiculo")
-public class VehiculoController {
+@RequestMapping("/api/estadoPedido")
+public class EstadoPedidoController {
 
     @Autowired
-    private VehiculoService vehiculoService;
+    private EstadoPedidoService estadoPedidoService;
 
     @GetMapping("/all")
     public ResponseEntity<?> obtenerTodos() {
-        return ResponseEntity.ok(vehiculoService.obtenerTodos());
+        return ResponseEntity.ok(estadoPedidoService.obtenerTodos());
     }
 
 }

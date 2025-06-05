@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class OperarioBusquedaResponseDTO {
+public class BusquedaResponseDTO {
 
     private Integer totalRegistros;
     private Integer cantidadPorPagina;

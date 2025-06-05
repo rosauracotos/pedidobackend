@@ -8,7 +8,7 @@ import com.example.pedidobackend.service.OperarioService;
 import com.example.pedidobackend.util.Constantes;
 import com.example.pedidobackend.util.RespuestaControlador;
 import com.example.pedidobackend.util.dto.OperarioBusquedaRequestDTO;
-import com.example.pedidobackend.util.dto.OperarioBusquedaResponseDTO;
+import com.example.pedidobackend.util.dto.BusquedaResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,12 +68,12 @@ public class OperarioServiceImpl implements OperarioService {
     }
 
     @Override
-    public OperarioBusquedaResponseDTO busquedaPaginada(OperarioBusquedaRequestDTO dto) {
+    public BusquedaResponseDTO busquedaPaginada(OperarioBusquedaRequestDTO dto) {
         List<Map<String, Object>> data = operarioRepository.busquedaPaginadaOperario(dto.getNombre(), dto.getApellidoPaterno(), dto.getApellidoMaterno(), dto.getTipoDocumentoId(),
                 dto.getNumeroDocumento(), dto.getEstadoOperario(), dto.getMax(), dto.getLimite());
         Integer cantidadTotal = operarioRepository.busquedaPaginadaOperarioContar(dto.getNombre(), dto.getApellidoPaterno(), dto.getApellidoMaterno(), dto.getTipoDocumentoId(),
                 dto.getNumeroDocumento(), dto.getEstadoOperario(), dto.getMax(), dto.getLimite());
-        OperarioBusquedaResponseDTO responseDTO = new OperarioBusquedaResponseDTO();
+        BusquedaResponseDTO responseDTO = new BusquedaResponseDTO();
         responseDTO.setData(data);
         responseDTO.setPaginaActual(dto.getLimite());
         responseDTO.setTotalRegistros(cantidadTotal);
@@ -81,9 +81,14 @@ public class OperarioServiceImpl implements OperarioService {
         return responseDTO;
     }
 
+    @Override
+    public List<Operario> obtenerTodos() {
+        return operarioRepository.findByEstadoTrue();
+    }
+
     private String generarUsuario(String nombre, String apepat, String apemat) {
-        String inicialNombre = nombre.substring(0, 1).toUpperCase();
-        String inicialApemat = apemat.substring(0, 1).toUpperCase();
+        String inicialNombre = nombre.substring(0, 2).toUpperCase();
+        String inicialApemat = apemat.substring(0, 2).toUpperCase();
         return inicialNombre + apepat.toUpperCase() + inicialApemat;
     }
 

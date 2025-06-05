@@ -2,7 +2,6 @@ package com.example.pedidobackend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +36,9 @@ public class Operario extends Auditable{
 
     @Column(name = "nombres", length = 50)
     private String nombres;
+
+    @Column(name = "nombrecompleto", length = 200)
+    private String nombrecompleto;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_documento")

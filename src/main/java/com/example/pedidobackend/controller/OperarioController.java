@@ -38,6 +38,11 @@ public class OperarioController {
         return ResponseEntity.ok(operarioService.getById(id));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> obtenerTodos() {
+        return ResponseEntity.ok(operarioService.obtenerTodos());
+    }
+
     @PostMapping("/guardar")
     public ResponseEntity<?> guardar (@RequestBody Operario operario){
         try {

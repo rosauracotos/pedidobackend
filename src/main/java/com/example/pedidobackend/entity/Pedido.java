@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -46,14 +47,18 @@ public class Pedido extends Auditable {
     @Column(name = "direccion_entrega", length = 50)
     private String direccionEntrega;
 
-    @Column(name = "estado_pedido", length = 50)
-    private String estadoPedido;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_estado_pedido")
+    private EstadoPedido estadoPedido;
 
     @Column(name = "fotografia_entrega", length = 50)
     private String fotografiaEntrega;
 
     @Column(name = "firma_cliente", length = 50)
     private String firmaCliente;
+
+    @Column(name = "fechapedido")
+    private LocalDate fechaPedido;
 
     @JsonIgnoreProperties("pedido")
     @OneToMany(mappedBy = "pedido")

@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,8 +35,12 @@ public class Cliente extends Auditable{
     @Column(name = "nombres", length = 50)
     private String nombres;
 
-    @Column(name = "tipo_documento", length = 50)
-    private String tipoDocumento;
+    @Column(name = "nombrecompleto", length = 200)
+    private String nombrecompleto;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_documento")
+    private TipoDocumento tipoDocumento;
 
     @Column(name = "numero_documento", length = 50)
     private String numeroDocumento;

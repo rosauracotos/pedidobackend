@@ -1,14 +1,13 @@
 package com.example.pedidobackend.repository;
 
-import com.example.pedidobackend.entity.Vehiculo;
+import com.example.pedidobackend.entity.EstadoPedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
-public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
+public interface EstadoPedidoRepository extends JpaRepository<EstadoPedido, Long> {
 
-    List<Vehiculo> findByEstadoTrue();
+    List<EstadoPedido> findByEstadoTrue();
 
 }
