@@ -57,7 +57,6 @@ public class VehiculoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Vehiculo> actualizarVehiculo(@PathVariable Long id, @RequestBody VehiculoDTO vehiculoDTO) {
-        log.info("Actualizando vehículo con ID: {}", vehiculoDTO);
         Vehiculo vehiculoActualizado = vehiculoService.actualizarVehiculo(id, vehiculoDTO);
         if (vehiculoActualizado != null) {
             return ResponseEntity.ok(vehiculoActualizado);
