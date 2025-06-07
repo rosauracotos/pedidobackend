@@ -17,7 +17,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Table(name = "vehiculo")
-public class Vehiculo extends Auditable{
+public class Vehiculo extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Vehiculo extends Auditable{
     @Column(name = "tipo_vehiculo", length = 50)
     private String tipoVehiculo;
 
-    @Column(name = "fotografia", length = 50)
+    @Column(name = "fotografia", length = 255)
     private String fotografia;
 
     @Column(name = "año", length = 50)
