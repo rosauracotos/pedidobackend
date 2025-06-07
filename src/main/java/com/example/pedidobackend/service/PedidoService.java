@@ -13,6 +13,8 @@ public interface PedidoService {
 
     RespuestaControlador guardar(PedidoRequestDTO pedidoRequestDTO);
 
+    RespuestaControlador editar(Long pedidoId, PedidoRequestDTO pedidoRequestDTO);
+
     RespuestaControlador eliminar(Long id);
 
 }

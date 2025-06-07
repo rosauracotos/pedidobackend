@@ -16,7 +16,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             " pe.id_pedido as nropedido, op.nombrecompleto as operario, esp.nombre as estadopedido, pe.id_pedido as pedidoid " +
             " FROM pedido pe " +
             " INNER JOIN cliente cli ON cli.id_cliente = pe.id_cliente " +
-            " INNER JOIN operario op ON op.id_operario = pe.id_operario " +
+            " LEFT OUTER JOIN operario op ON op.id_operario = pe.id_operario " +
             " INNER JOIN estado_pedido esp ON esp.id_estado_pedido = pe.id_estado_pedido " +
             " WHERE pe.estado " +
             " AND (:cliente IS NULL OR lower(cli.nombres) LIKE lower(concat('%', :cliente, '%'))) " +

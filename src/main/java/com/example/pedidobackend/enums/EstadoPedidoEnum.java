@@ -6,9 +6,10 @@ import lombok.Getter;
 public enum EstadoPedidoEnum {
 
     PENDIENTE(1L, "PENDIENTE"),
-    EN_PROCESO(2L, "EN PROCESO"),
-    FINALIZADO(3L, "FINALIZADO"),
-    ANULADO(4L, "ANULADO");
+    EN_CAMINO(2L, "EN CAMINO"),
+    ENTREGADO(3L, "ENTREGADO"),
+    ANULADO(4L, "ANULADO"),
+    ASIGNADO(5L, "ASIGNADO");
 
     private Long id;
     private String nombre;

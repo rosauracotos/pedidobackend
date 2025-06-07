@@ -58,9 +58,15 @@ public class PedidoServiceImpl implements PedidoService {
         requestDTO.setNombre(pedido.getCliente().getNombres());
         requestDTO.setDireccion(pedido.getCliente().getDireccion());
         requestDTO.setEmail(pedido.getCliente().getCorreoElectronico());
-        requestDTO.setOperarioId(pedido.getOperario().getId());
-        requestDTO.setVehiculoId(pedido.getVehiculo().getId());
-        requestDTO.setFechaPedido(pedido.getFechaPedido());
+        if (pedido.getOperario() != null) {
+            requestDTO.setOperarioId(pedido.getOperario().getId());
+        }
+        if (pedido.getVehiculo() != null) {
+            requestDTO.setVehiculoId(pedido.getVehiculo().getId());
+        }
+        if (pedido.getFechaPedido() != null) {
+            requestDTO.setFechaPedido(pedido.getFechaPedido());
+        }
 
         List<DetallePedido> detalles = detallePedidoRepository.findByPedidoIdAndEstadoTrue(id);
         List<ProductoRequestDTO> listado = new ArrayList<>();
@@ -94,12 +100,13 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = new Pedido();
         Cliente cliente = new Cliente();
         TipoDocumento tipoDocumento = new TipoDocumento();
-        Operario operario = new Operario();
-        operario.setId(pedidoRequestDTO.getOperarioId());
-        Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setId(pedidoRequestDTO.getVehiculoId());
+
         EstadoPedido estadoPedido = new EstadoPedido();
-        estadoPedido.setId(EstadoPedidoEnum.PENDIENTE.getId());
+        if (pedidoRequestDTO.getOperarioId() != null) {
+            estadoPedido.setId(EstadoPedidoEnum.ASIGNADO.getId());
+        } else {
+            estadoPedido.setId(EstadoPedidoEnum.PENDIENTE.getId());
+        }
 
         if (pedidoRequestDTO.getClienteId() > 0L) {
             cliente.setId(pedidoRequestDTO.getClienteId());
@@ -117,11 +124,21 @@ public class PedidoServiceImpl implements PedidoService {
             clienteRepository.save(cliente);
         }
         pedido.setCliente(cliente);
-        pedido.setOperario(operario);
-        pedido.setVehiculo(vehiculo);
+        if (pedidoRequestDTO.getOperarioId() != null) {
+            Operario operario = new Operario();
+            operario.setId(pedidoRequestDTO.getOperarioId());
+            pedido.setOperario(operario);
+        }
+        if (pedidoRequestDTO.getVehiculoId() != null) {
+            Vehiculo vehiculo = new Vehiculo();
+            vehiculo.setId(pedidoRequestDTO.getVehiculoId());
+            pedido.setVehiculo(vehiculo);
+        }
+        if (pedidoRequestDTO.getFechaPedido() != null) {
+            pedido.setFechaPedido(pedidoRequestDTO.getFechaPedido());
+        }
         pedido.setEstadoPedido(estadoPedido);
         pedido.setDireccionEntrega(pedidoRequestDTO.getDireccion());
-        pedido.setFechaPedido(pedidoRequestDTO.getFechaPedido());
 
         pedidoRepository.save(pedido);
 
@@ -142,6 +159,37 @@ public class PedidoServiceImpl implements PedidoService {
         }
 
         RespuestaControlador respuestaControlador = respuestaControladorServicio.obtenerRespuestaDeExitoCrear("Pedido");
+        respuestaControlador.setExtraInfo(pedido.getId());
+        return respuestaControlador;
+    }
+
+    @Override
+    public RespuestaControlador editar(Long pedidoId, PedidoRequestDTO pedidoRequestDTO) {
+        Pedido pedido = pedidoRepository.getReferenceById(pedidoId);
+
+        EstadoPedido estadoPedido = new EstadoPedido();
+        if (pedidoRequestDTO.getOperarioId() != null) {
+            estadoPedido.setId(EstadoPedidoEnum.ASIGNADO.getId());
+        } else {
+            estadoPedido.setId(EstadoPedidoEnum.PENDIENTE.getId());
+        }
+        if (pedidoRequestDTO.getOperarioId() != null) {
+            Operario operario = new Operario();
+            operario.setId(pedidoRequestDTO.getOperarioId());
+            pedido.setOperario(operario);
+        }
+        if (pedidoRequestDTO.getVehiculoId() != null) {
+            Vehiculo vehiculo = new Vehiculo();
+            vehiculo.setId(pedidoRequestDTO.getVehiculoId());
+            pedido.setVehiculo(vehiculo);
+        }
+        if (pedidoRequestDTO.getFechaPedido() != null) {
+            pedido.setFechaPedido(pedidoRequestDTO.getFechaPedido());
+        }
+        pedido.setEstadoPedido(estadoPedido);
+        pedidoRepository.save(pedido);
+
+        RespuestaControlador respuestaControlador = respuestaControladorServicio.obtenerRespuestaDeExitoActualizar("Pedido");
         respuestaControlador.setExtraInfo(pedido.getId());
         return respuestaControlador;
     }

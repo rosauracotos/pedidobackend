@@ -48,6 +48,16 @@ public class PedidoController {
         }
     }
 
+    @PutMapping("/editar/{idPedido}")
+    public ResponseEntity<?> guardar (@PathVariable Long idPedido, @RequestBody PedidoRequestDTO requestDTO){
+        try {
+            RespuestaControlador rc = pedidoService.editar(idPedido, requestDTO);
+            return ResponseEntity.ok(rc);
+        }catch (Exception ex){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
     @PutMapping("/eliminar/{idPedido}")
     public ResponseEntity<?> anular(@PathVariable Long idPedido) {
         RespuestaControlador rc = pedidoService.eliminar(idPedido);
