@@ -30,6 +30,7 @@ public class OperarioServiceImpl implements OperarioService {
     @Override
     public RespuestaControlador guardar(Operario operario) {
         operario.setCargo("OPERARIO");
+        operario.setNombrecompleto(operario.getApePaterno() + ' ' + operario.getApeMaterno() + ' ' + operario.getNombres());
         operario.setEstadoOperario(Constantes.OPERARIO_ACTIVO);
         operarioRepository.save(operario);
         Usuario usuario = new Usuario();
