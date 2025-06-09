@@ -4,6 +4,7 @@ import com.example.pedidobackend.entity.Operario;
 import com.example.pedidobackend.entity.Usuario;
 import com.example.pedidobackend.repository.OperarioRepository;
 import com.example.pedidobackend.repository.UsuarioRepository;
+import com.example.pedidobackend.service.EmailService;
 import com.example.pedidobackend.service.OperarioService;
 import com.example.pedidobackend.util.Constantes;
 import com.example.pedidobackend.util.RespuestaControlador;
@@ -12,6 +13,7 @@ import com.example.pedidobackend.util.dto.BusquedaResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,13 @@ public class OperarioServiceImpl implements OperarioService {
     @Autowired
     RespuestaControladorServicio respuestaControladorServicio;
 
+    @Autowired
+    EmailService emailService;
+
+    private static final String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}[]";
+
+    private static final int LONGITUD_CLAVE = 15;
+
     @Override
     public RespuestaControlador guardar(Operario operario) {
         operario.setCargo("OPERARIO");
@@ -35,9 +44,17 @@ public class OperarioServiceImpl implements OperarioService {
         Usuario usuario = new Usuario();
         usuario.setOperario(operario);
         usuario.setNombreUsuario(generarUsuario(operario.getNombres(), operario.getApePaterno(), operario.getApeMaterno()));
-        usuario.setContraseniaHash("123456");
+        usuario.setContraseniaHash(generarClaveAleatoria());
         usuario.setRol("OPERARIO");
         usuarioRepository.save(usuario);
+
+        String mensaje = "Estimado(a) " + operario.getApePaterno() + " " + operario.getApeMaterno() + " " + operario.getNombres() +
+                ", se le envían sus credenciales para el sistema: \n " +
+                " Login : " + usuario.getNombreUsuario() + "\n"+
+                " Contraseña : " + usuario.getContraseniaHash();
+
+        emailService.enviarCorreo(operario.getCorreoElectronico(), "Credenciales Creadas", mensaje);
+
         RespuestaControlador respuestaControlador = respuestaControladorServicio.obtenerRespuestaDeExitoCrear("Operario");
         respuestaControlador.setExtraInfo(operario.getId());
         return respuestaControlador;
@@ -90,6 +107,20 @@ public class OperarioServiceImpl implements OperarioService {
         String inicialNombre = nombre.substring(0, 2).toUpperCase();
         String inicialApemat = apemat.substring(0, 2).toUpperCase();
         return inicialNombre + apepat.toUpperCase() + inicialApemat;
+    }
+
+    private String generarClaveAleatoria() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder clave = new StringBuilder();
+
+        // Genera cada carácter de la clave
+        for (int i = 0; i < LONGITUD_CLAVE; i++) {
+            int indice = random.nextInt(CARACTERES.length());
+            char caracter = CARACTERES.charAt(indice);
+            clave.append(caracter);
+        }
+
+        return clave.toString();
     }
 
 }
