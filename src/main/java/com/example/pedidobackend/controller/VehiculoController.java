@@ -35,7 +35,7 @@ public class VehiculoController {
     @Autowired
     private IVehiculoService vehiculoService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Vehiculo>> listarVehiculos() {
         return ResponseEntity.ok(vehiculoService.listarVehiculos());
     }
